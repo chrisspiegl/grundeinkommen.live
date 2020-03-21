@@ -62,7 +62,7 @@
       ref: "origin/master",
       repo: "git@github.com:chrisspiegl/grundeinkommen.live.git",
       path: "/home/node/grundeinkommen.live",
-      "post-deploy": "npm run nsinstall && npm run nsupdate && npm run nsauditfix && NODE_ENV=production pm2 reload ecosystem.json --only ubi-web --env production",
+      "post-deploy": "NODE_ENV=production pm2 reload ecosystem.json --only ubi-web --env production",
       env: {},
     },
     // dev : {
