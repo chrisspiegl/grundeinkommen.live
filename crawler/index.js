@@ -21,9 +21,8 @@ const models = require('../database/models')
 
 const configParallelAccessPages = 1
 
-const start = async () => {
-  log('Starting Crawler')
-  await models.init()
+const run = async () => {
+  log('Running Crawler')
 
   const pLimiter = pLimit(configParallelAccessPages)
 
@@ -37,10 +36,11 @@ const start = async () => {
   process.exit()
 }
 
-
-const CronJob = require('cron').CronJob;
-const job = new CronJob('0 */5 * * * *', function() {
-  log('Running Crawler by Cron')
-  start()
-}, null, true, 'Europe/Berlin', this, true);
-job.start();
+const start = async () => {
+  log('Starting Crawler')
+  await models.init()
+  const CronJob = require('cron').CronJob;
+  const job = new CronJob('0 */5 * * * *', run, null, true, 'Europe/Berlin', this, true);
+  job.start();
+}
+start()
