@@ -37,4 +37,10 @@ const start = async () => {
   process.exit()
 }
 
-start()
+
+const CronJob = require('cron').CronJob;
+const job = new CronJob('0 */5 * * * *', function() {
+  log('Running Crawler by Cron')
+  start()
+}, null, true, 'Europe/Berlin', this, true);
+job.start();
