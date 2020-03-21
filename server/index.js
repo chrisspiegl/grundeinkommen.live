@@ -38,6 +38,7 @@ const app = express()
 app.use(helmet())
 // morganBody(app) // Log all messages including their parameters in a failry pretty way
 app.use(logger('tiny')) // Less extreme logging of requests
+app.use(cors())
 // app.use(middleware.analytics) // Disable analytics cause it's a internal tool
 app.use(expressStatusMonitor())
 app.enable('trust proxy') // only if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
