@@ -33,7 +33,6 @@ const run = async () => {
   await Promise.all(promises)
 
   log('Finished Crawling All')
-  process.exit()
 }
 
 const start = async () => {
