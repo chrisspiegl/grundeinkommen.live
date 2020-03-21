@@ -1,0 +1,12 @@
+# Changelog
+
+## 2020-03-21 11:06
+
+- Crawling mein-grundeinkommen.de
+- Crawling change.org for 6 months petition
+- Basic website with chart.js graph
+
+## 2020-03-20 16:00
+
+- Setup project structure.
+

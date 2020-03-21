@@ -1,0 +1,117 @@
+extends layout
+block content
+
+  .container
+    h2 Change.org
+    h1 #{numeral(changeOrgDeCurrent.value).format('0,0')} Menschen haben die Petition für 6 Monate Grundeinkommen unterzeichnet.
+    p Bei der Petition geht es darum, insbesondere wegen der Corona Krise, für die kommenden 6 Monate ein Grundeinkommen für alle Bürger ein zu führen. #[a(href="https://www.change.org/p/finanzminister-olaf-scholz-und-wirtschaftsminister-peter-altmaier-mit-dem-bedingungslosen-grundeinkommen-durch-die-coronakrise-coronavirusde-olafscholz-peteraltmaier") Alle Informationen & Unterschreiben].
+    canvas#chartChangeOrg
+    .flexContainer.two
+      p.flexColumn.source.center
+        a(href="https://www.change.org/p/finanzminister-olaf-scholz-und-wirtschaftsminister-peter-altmaier-mit-dem-bedingungslosen-grundeinkommen-durch-die-coronakrise-coronavirusde-olafscholz-peteraltmaier") Quelle
+      p.flexColumn.center Letztes Update #[abbr(title=moment(changeOrgDeCurrent.createdAt).tz('Europe/Berlin')) #{moment(changeOrgDeCurrent.createdAt).tz('Europe/Berlin').locale('de').fromNow()}]
+
+
+  .container
+    h2 Mein-Grundeinkommen.de
+    h1 Durch #{numeral(meinbgeDonors.value).format('0,0')} wurden bereits #{numeral(meinbgeGrundeinkommen.value).format('0,0')} finanziert.
+    p Seit Jahren verlost #[a(href="https://www.mein-grundeinkommen.de/") MeinBGE.de] regelmäßig Grundeinkommen in Höhe von 1.000€ pro Monat für 12 Monate an Teilnehmer und will damit im Realversuch zeigen welchen Einfluss ein Grundeinkommen auf Menschen und ihre Umwelt hat. #[a(href="https://www.mein-grundeinkommen.de/") Jetzt an der nächsten Verlosung teilnehmen].
+    .flexContainer.two
+      p.flexColumn.source.center
+        a(href="https://www.mein-grundeinkommen.de/") Quelle
+      p.flexColumn.center Letztes Update #[abbr(title=moment(meinbgeDonors.createdAt).tz('Europe/Berlin')) #{moment(meinbgeDonors.createdAt).tz('Europe/Berlin').locale('de').fromNow()}]
+
+block footerJs
+  script.
+    numeral.register('locale', 'de-cs', {
+        delimiters: {
+            thousands: '.',
+            decimal: ','
+        },
+        abbreviations: {
+            thousand: ' Tausend',
+            million: ' Million',
+        },
+        currency: {
+            symbol: '€'
+        }
+    });
+    numeral.locale('de-cs')
+
+    const chartChangeOrgContext = document.getElementById('chartChangeOrg').getContext('2d');
+    const chartChangeOrg = new Chart(chartChangeOrgContext, {
+      type: 'line',
+      data: {
+        labels: !{JSON.stringify(chartChangeOrg.labels)},
+        datasets: [
+          {
+            label: 'Signatures',
+            data: !{JSON.stringify(chartChangeOrg.valuesRaw)},
+            borderColor: '#cc5630',
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            cubicInterpolationMode: 'monotone',
+          },
+          //- {
+          //-   label: 'New Chats Today',
+          //-   data: !{JSON.stringify(chartChangeOrg.dataNew)},
+          //-   borderColor: '#222830',
+          //-   backgroundColor: 'rgba(0, 0, 0, 0)',
+          //-   cubicInterpolationMode: 'monotone',
+          //-   yAxisID: 'sio-right-conversations',
+          //- }
+        ]
+      },
+      options: {
+        legend: {
+          display: false,
+        },
+        tooltips: {
+          mode: 'index',
+          callbacks: {
+            label: function(tooltipItem, data) {
+              numeral.locale('de-cs')
+              return 'Signatures: ' + numeral(tooltipItem.yLabel).format('0,0');
+            }
+          }
+        },
+        scales: {
+          yAxes: [{
+              id: 'default',
+              ticks: {
+                beginAtZero: true,
+                callback: function(label, index, labels) {
+                  // when the floored value is the same as the value we have a whole number
+                  if (Math.floor(label) === label) {
+                    return label;
+                  }
+                  return;
+                },
+              },
+            },
+            //- {
+            //-   id: 'sio-right-conversations',
+            //-   position: 'right',
+            //-   gridLines: {
+            //-     drawOnChartArea: false, // only want the grid lines for one axis to show up
+            //-   },
+            //-   ticks: {
+            //-     beginAtZero: true,
+            //-     userCallback: function(label, index, labels) {
+            //-       // when the floored value is the same as the value we have a whole number
+            //-       if (Math.floor(label) === label) {
+            //-         return label + '/d';
+            //-       }
+            //-       return;
+            //-     },
+            //-   },
+            //- },
+          ],
+        },
+        elements: {
+          line: {
+            skipNull: false,
+            drawNull: true,
+          }
+        }
+      }
+    });

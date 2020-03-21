@@ -1,0 +1,212 @@
+/* Variables
+================================== */
+$bw: 3px;  // border width
+$breakpoint: 767px;
+$tableColour: #cc5630;
+
+/* Tables
+================================== */
+.flexTable {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 0 3em 0;
+  padding: 0;
+}
+.flexTableCell {
+  box-sizing: border-box;
+  flex-grow: 1;
+  width: 100%;  // Default to full width
+  padding: 0.8em 1.2em;
+  overflow: hidden; // Or flex might break
+  list-style: none;
+  border: solid $bw #5f6874;
+  background: fade(#101318,20%);
+  > h1, > h2, > h3, > h4, > h5, > h6 { margin: 0; }
+}
+
+
+/* Cell styles
+================================== */
+.flexTableCell--dark {
+  background-color: slategrey;
+  border-color: darken($tableColour,10%);
+}
+.flexTableCell--medium {
+  background-color: mix(white,$tableColour,50%);
+  border-color: mix(white,$tableColour,40%);
+}
+.flexTableCell--light {
+  background-color: white;
+  border-color: mix(white,$tableColour,80%);
+}
+.flexTableCell--highlight {
+  background-color: lightgreen;
+  border-color: darken(lightgreen,10%);
+}
+.flexTableCell--alert {
+  background-color: darkorange;
+  border-color: darken(darkorange,10%);
+}
+
+/* Apply styles
+================================== */
+.flexTable {
+  position: relative; top: $bw; left: $bw; //compensate for border offset
+}
+.flexTableCell {
+  margin: -$bw 0 0 -$bw;  //border collapse offset
+  @extend .flexTableCell--light;
+}
+
+
+// Inherit header and footer styles
+.flexTableCell--head { @extend .flexTableCell--dark; }
+.flexTableCell--foot { @extend .flexTableCell--medium; }
+
+/* Table column sizing
+================================== */
+.flexTable--2cols > .flexTableCell  { width: calc(100% / 2) }
+.flexTable--3cols > .flexTableCell  { width: calc(100% / 3) }
+.flexTable--4cols > .flexTableCell  { width: calc(100% / 4) }
+.flexTable--5cols > .flexTableCell  { width: calc(100% / 5) }
+.flexTable--6cols > .flexTableCell  { width: calc(100% / 6) }
+
+/* Responsive
+==================================== */
+@media all and (max-width: $breakpoint) {
+  .flexTable--collapse  {
+    display: block;
+    > .flexTableCell { width: 100% !important; }
+    > .flexTableCell--head { margin-top: 1em; }
+    > .flexTableCell--foot { margin-bottom: 1em; }
+  }
+}
+
+// Non-Flex modernizer fallback
+.no-flexbox .flexTable {
+  display: block;
+  > .flexTableCell { width: 100%; }
+  > .flexTableCell--foot { margin-bottom: 1em; }
+}
+
+
+
+
+// .flexTableWraper {
+//   display: block;
+//   margin: 2em auto;
+//   width: 100%;
+
+//   .flexTable {
+//     display: flex;
+//     flex-flow: row wrap;
+//     /*border-left: solid 1px #5f6874;*/
+//     transition: 0.5s;
+//   }
+//   .flexTable:first-of-type {
+//     border-top: solid 1px #101318;
+//     /*border-left: solid 1px #101318;*/
+//   }
+//   .flexTable:first-of-type .flexRow {
+//     background: #5f6874;
+//     color: white;
+//     border-color: #101318;
+//   }
+//   .flexTable.row:nth-child(odd) .flexRow {
+//     background: rgba(95, 104, 116, 0.2);
+//   }
+//   .flexTable:hover {
+//     background: #F5F5F5;
+//     transition: 500ms;
+//   }
+
+//   .flexRow {
+//     width: calc(100% / 5);
+//     text-align: right;
+//     padding: 0.5em 0.5em;
+//     /*border-right: solid 1px #5f6874;*/
+//     border-bottom: solid 1px #5f6874;
+//     flex-grow: 1;
+//   }
+
+//   .rowspan {
+//     display: flex;
+//     flex-flow: row wrap;
+//     align-items: flex-start;
+//     justify-content: center;
+//   }
+
+//   .column {
+//     display: flex;
+//     flex-flow: column wrap;
+//     width: calc(100% / 5);
+//     padding: 0;
+//   }
+//   .column .flexRow {
+//     display: flex;
+//     flex-flow: row wrap;
+//     width: 100%;
+//     padding: 0;
+//     border: 0;
+//     border-bottom: solid 1px #5f6874;
+//   }
+//   .column .flexRow:hover {
+//     background: #F5F5F5;
+//     transition: 500ms;
+//   }
+
+//   .flexCell {
+//     width: calc(100% / 5);
+//     text-align: center;
+//     padding: 0.5em 0.5em;
+//     /*border-right: solid 1px #5f6874;*/
+//   }
+
+//   // @media all and (max-width: 767px) {
+//   //   .flexRow,
+//   //   .flexCell {
+//   //     width: calc(100% / 2);
+//   //   }
+//   //   .flexRow.first,
+//   //   .flexTable.row:nth-child(odd) .flexRow.first {
+//   //     width: 100%;
+//   //     background: #5f6874;
+//   //     color: white;
+//   //   }
+
+//   //   .column {
+//   //     width: 100%;
+//   //   }
+//   // }
+//   // @media all and (max-width: 430px) {
+//   //   .flexTable .flexRow {
+//   //     border-bottom: 0;
+//   //   }
+//   //   .flexTable .flexRow:last-of-type {
+//   //     border-bottom: solid 1px #5f6874;
+//   //   }
+
+//   //   .header .flexRow {
+//   //     border-bottom: solid 1px;
+//   //   }
+
+//   //   .flexRow {
+//   //     width: 100%;
+//   //   }
+//   //   .flexRow.first {
+//   //     width: 100%;
+//   //     border-bottom: solid 1px #5f6874;
+//   //   }
+
+//   //   .column {
+//   //     width: 100%;
+//   //   }
+//   //   .column .flexRow {
+//   //     border-bottom: solid 1px #5f6874;
+//   //   }
+
+//   //   .flexCell {
+//   //     width: 100%;
+//   //   }
+//   // }
+// }
