@@ -66,8 +66,8 @@ module.exports = () => {
       }
     }
 
-    response.changeOrg1h = response.changeOrgDeCurrent.value - changeOrg1h.value
-    response.changeOrg24h = response.changeOrgDeCurrent.value - changeOrg24h.value
+    response.changeOrg1h = (changeOrg1h) ? response.changeOrgDeCurrent.value - changeOrg1h.value : 0
+    response.changeOrg24h = (changeOrg24h) ? response.changeOrgDeCurrent.value - changeOrg24h.value : 0
 
 
     /**
@@ -111,8 +111,8 @@ module.exports = () => {
         youMove24h = change
       }
     }
-    response.youMove1h = response.youMoveCurrent.value - youMove1h.value
-    response.youMove24h = response.youMoveCurrent.value - youMove24h.value
+    response.youMove1h = (youMove1h) ? response.youMoveCurrent.value - youMove1h.value : 0
+    response.youMove24h = (youMove24h) ? response.youMoveCurrent.value - youMove24h.value : 0
 
 
     /**
