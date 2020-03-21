@@ -54,6 +54,22 @@ module.exports = () => {
 
     response.chartChangeOrg = chartChangeOrg
 
+    let hourLast1 = moment().subtract(2, 'hours').startOf('hour')
+    let hourLast24 = moment().subtract(24, 'hours').startOf('hour')
+    let changeOrg24h, changeOrg1h;
+    for (let change of response.changeOrgDe) {
+      if (!changeOrg1h && moment(change.createdAt).startOf('hour').isAfter(hourLast1)) {
+        changeOrg1h = change
+      }
+      if (!changeOrg24h && moment(change.createdAt).startOf('hour').isAfter(hourLast24)) {
+        changeOrg24h = change
+      }
+    }
+
+    response.changeOrg1h = response.changeOrgDeCurrent.value - changeOrg1h.value
+    response.changeOrg24h = response.changeOrgDeCurrent.value - changeOrg24h.value
+
+
     /**
     youmove =======================================
     */
@@ -78,15 +94,25 @@ module.exports = () => {
       if (hourLast.isSame(hourCurrent)) {
         continue
       }
-      console.log('hourCurrent: ', hourCurrent.format());
       hourLast = hourCurrent
-      console.log('hourLast: ', hourLast.format());
       chartYouMove.labels.push(hourLast.tz('Europe/Berlin').format('YYYY-MM-DD HH:mm'))
       chartYouMove.values.push(numeral(change.value).format('0.0'))
       chartYouMove.valuesRaw.push(change.value)
     }
 
     response.chartYouMove = chartYouMove
+
+    let youMove24h, youMove1h;
+    for (let change of response.youMove) {
+      if (!youMove1h && moment(change.createdAt).startOf('hour').isAfter(hourLast1)) {
+        youMove1h = change
+      }
+      if (!youMove24h && moment(change.createdAt).startOf('hour').isAfter(hourLast24)) {
+        youMove24h = change
+      }
+    }
+    response.youMove1h = response.youMoveCurrent.value - youMove1h.value
+    response.youMove24h = response.youMoveCurrent.value - youMove24h.value
 
 
     /**

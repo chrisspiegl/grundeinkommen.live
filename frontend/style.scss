@@ -47,22 +47,13 @@ body {
   align-items: stretch;
   .flexColumn {
     flex: 1;
-  }
-  .flexColumn.title {
-    flex: 4;
-    overflow: hidden;
-  }
-  .flexColumn.title h5 {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .flexColumn.date {
-    flex: 1.2;
-  }
-  .flexColumn.links {
-    flex: 2;
-    text-align: right;
+
+    .title {
+      text-align: center;
+    }
+    .data {
+      text-align: center;
+    }
   }
   &.two .flexColumn {
     width: calc(100% / 2);

@@ -1,5 +1,16 @@
 # Changelog
 
+## 2020-03-21 19:22
+
+- Added last 24 hours and last hour new signatures
+- Added more data by manual input (data source was https://www.archiv-grundeinkommen.de/)
+
+## 2020-03-21 15:25
+
+- added youmove petition
+- added dark theme
+- made crawler inside node.js because crontab didn't work (working every 5 minutes)
+
 ## 2020-03-21 11:06
 
 - Crawling mein-grundeinkommen.de
