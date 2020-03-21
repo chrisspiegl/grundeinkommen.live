@@ -39,7 +39,7 @@
       ref: "origin/master",
       repo: "git@github.com:chrisspiegl/grundeinkommen.live.git",
       path: "/home/node/grundeinkommen.live",
-      "post-deploy": "npm run nsinstall && npm run nsupdate && npm run nsauditfix && NODE_ENV=production pm2 gracefulReload ecosystem.json --only ubi-web --env production",
+      "post-deploy": "npm run nsinstall && npm run nsupdate && npm run nsauditfix && NODE_ENV=production pm2 reload ecosystem.json --only ubi-web --env production",
       env: {},
     },
     // dev : {
@@ -49,7 +49,7 @@
     //   ref: "origin/master",
     //   repo: "git@github.com:chrisspiegl/NetworkPersonalConnections.git",
     //   path: "/home/node/network.chrisspiegl.com/development",
-    //   "post-deploy": "npm run nsinstall && npm run nsupdate && NODE_ENV=development pm2 gracefulReload ecosystem.json --env development --source-map-support",
+    //   "post-deploy": "npm run nsinstall && npm run nsupdate && NODE_ENV=development pm2 reload ecosystem.json --env development --source-map-support",
     //   env: {}
     // }
   }
