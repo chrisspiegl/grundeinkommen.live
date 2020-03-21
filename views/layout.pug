@@ -86,11 +86,29 @@ body(
 
   != footerScripts
 
-  //- if config.env === 'production'
+  - if config.env === 'production'
     //- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent
     //- script(type="text/javascript").
     //-  window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website","dismiss":"Got it!","learnMore":"More info","link":null,"theme":"dark-bottom"};
     //- script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js")
+    // Matomo
+    script(type='text/javascript').
+      var _paq = window._paq || [];
+      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+      var u="https://matomo.spiegl.co/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '2']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+      })();
+    noscript
+      p
+        img(src='https://matomo.spiegl.co/matomo.php?idsite=2&rec=1' style='border:0;' alt='')
+    // End Matomo Code
+
 
   //- Include footer JavaScript form pages
   block footerJs
