@@ -21,8 +21,8 @@ a.madeBy {
   right: 0;
   bottom: 0;
   z-index: 97;
-  background-color: #ffffff;
-  color: #222830;
+  background-color: #101318;
+  color: #5f6874;
   font-weight: bold;
   border-radius: .25rem;
   border: .15rem solid #cc5630;
@@ -34,7 +34,7 @@ a.madeBy {
   transition-property: all;
   transition-duration: 0.5s;
   &:hover {
-    color: #ffffff;
+    color: #101318;
     text-decoration: none;
     background-color: #cc5630;
     border-color: darken(#cc5630, 20%);

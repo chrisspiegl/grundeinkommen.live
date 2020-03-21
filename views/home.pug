@@ -1,32 +1,33 @@
 extends layout
 block content
 
-  .container
-    h2 Change.org
-    h1 #{numeral(changeOrgDeCurrent.value).format('0,0')} Menschen haben die Petition für 6 Monate Grundeinkommen unterzeichnet.
-    p Bei der Petition geht es darum, insbesondere wegen der Corona Krise, für die kommenden 6 Monate ein Grundeinkommen für alle Bürger ein zu führen. #[a(href="https://www.change.org/p/finanzminister-olaf-scholz-und-wirtschaftsminister-peter-altmaier-mit-dem-bedingungslosen-grundeinkommen-durch-die-coronakrise-coronavirusde-olafscholz-peteraltmaier") Alle Informationen & Unterschreiben].
-    canvas#chartChangeOrg
-    p Die Daten sind ab 21.3. pro Stunde aufgeführt. Vorhergehende Daten sind nur in größeren Sprüngen verfügbar.
-    .flexContainer.two
-      p.flexColumn.source.center
-        a(href="https://www.change.org/p/finanzminister-olaf-scholz-und-wirtschaftsminister-peter-altmaier-mit-dem-bedingungslosen-grundeinkommen-durch-die-coronakrise-coronavirusde-olafscholz-peteraltmaier") Quelle
-      p.flexColumn.center Letztes Update #[abbr(title=moment(changeOrgDeCurrent.createdAt).tz('Europe/Berlin')) #{moment(changeOrgDeCurrent.createdAt).tz('Europe/Berlin').locale('de').fromNow()}]
+  .flexContainer#masterFlex
+    .container#changeorg
+      h2 Change.org
+      h1 #{numeral(changeOrgDeCurrent.value).format('0,0')} Menschen sind für 6 Monate Grundeinkommen
+      p Bei der Petition geht es darum, insbesondere wegen der Corona Krise, für die kommenden 6 Monate ein Grundeinkommen für alle Bürger ein zu führen. #[a(href="https://www.change.org/p/finanzminister-olaf-scholz-und-wirtschaftsminister-peter-altmaier-mit-dem-bedingungslosen-grundeinkommen-durch-die-coronakrise-coronavirusde-olafscholz-peteraltmaier") Alle Informationen & Unterschreiben].
+      canvas.chartjs#chartChangeOrg
+      p Die Daten sind ab 21.3. pro Stunde aufgeführt. Vorhergehende Daten sind nur in größeren Sprüngen verfügbar.
+      .flexContainer.two
+        p.flexColumn.source.center
+          a(href="https://www.change.org/p/finanzminister-olaf-scholz-und-wirtschaftsminister-peter-altmaier-mit-dem-bedingungslosen-grundeinkommen-durch-die-coronakrise-coronavirusde-olafscholz-peteraltmaier") Quelle
+        p.flexColumn.center Letztes Update #[abbr(title=moment(changeOrgDeCurrent.createdAt).tz('Europe/Berlin')) #{moment(changeOrgDeCurrent.createdAt).tz('Europe/Berlin').locale('de').fromNow()}]
 
-  .container
-    h2 You.WeMove.eu
-    h1 #{numeral(youMoveCurrent.value).format('0,0')} Menschen haben die Petition für 6 Monate Grundeinkommen unterzeichnet.
-    p Bei der Petition geht es darum, insbesondere wegen der Corona Krise, in der EU ein Grundeinkommen für alle Bürger ein zu führen. #[a(href="https://you.wemove.eu/campaigns/notfall-grundeinkommen") Alle Informationen & Unterschreiben].
-    canvas#chartYouMove
-    p Die Daten sind ab 21.3. pro Stunde aufgeführt.
-    .flexContainer.two
-      p.flexColumn.source.center
-        a(href="https://you.wemove.eu/campaigns/notfall-grundeinkommen") Quelle
-      p.flexColumn.center Letztes Update #[abbr(title=moment(youMoveCurrent.createdAt).tz('Europe/Berlin')) #{moment(youMoveCurrent.createdAt).tz('Europe/Berlin').locale('de').fromNow()}]
+    .container#youmove
+      h2 You.WeMove.eu
+      h1 #{numeral(youMoveCurrent.value).format('0,0')} Menschen sind für Notfall-Grundeinkommen für die EU - jetzt!
+      p Bei der Petition geht es darum, insbesondere wegen der Corona Krise, in der EU ein Grundeinkommen für alle Bürger ein zu führen. #[a(href="https://you.wemove.eu/campaigns/notfall-grundeinkommen") Alle Informationen & Unterschreiben].
+      canvas.chartjs#chartYouMove
+      p Die Daten sind ab 21.3. pro Stunde aufgeführt.
+      .flexContainer.two
+        p.flexColumn.source.center
+          a(href="https://you.wemove.eu/campaigns/notfall-grundeinkommen") Quelle
+        p.flexColumn.center Letztes Update #[abbr(title=moment(youMoveCurrent.createdAt).tz('Europe/Berlin')) #{moment(youMoveCurrent.createdAt).tz('Europe/Berlin').locale('de').fromNow()}]
 
 
   .container
     h2 Mein-Grundeinkommen.de
-    h1 Durch #{numeral(meinbgeDonors.value).format('0,0')} wurden bereits #{numeral(meinbgeGrundeinkommen.value).format('0,0')} finanziert.
+    h1 Durch #{numeral(meinbgeDonors.value).format('0,0')} wurden bereits #{numeral(meinbgeGrundeinkommen.value).format('0,0')} Grundeinkommen finanziert.
     p Seit Jahren verlost #[a(href="https://www.mein-grundeinkommen.de/") MeinBGE.de] regelmäßig Grundeinkommen in Höhe von 1.000€ pro Monat für 12 Monate an Teilnehmer und will damit im Realversuch zeigen welchen Einfluss ein Grundeinkommen auf Menschen und ihre Umwelt hat. #[a(href="https://www.mein-grundeinkommen.de/") Jetzt an der nächsten Verlosung teilnehmen].
     .flexContainer.two
       p.flexColumn.source.center

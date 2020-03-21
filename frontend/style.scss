@@ -2,7 +2,6 @@
  * Magic Starts Here
  */
 
-@import "../node_modules/chart.js/dist/Chart";
 @import "scss/_reset.scss";
 @import "scss/_keyframes.scss";
 @import "scss/_autohide.scss";
@@ -22,9 +21,18 @@
   background: #ff202f;
   color: white;
 }
+
 body {
-  background-color: #fff;
+  background-color: #202830;
+  color: hsl(210, 10%, 62%);
 }
+@media screen and (prefers-color-scheme: light) {
+  body {
+    background-color: hsl(210, 10%, 62%);
+    color: black;
+  }
+}
+
 .container {
   margin: auto;
   width: 80%;
@@ -83,7 +91,17 @@ body {
 }
 
 
+@media screen and (min-width:1080px) {
+  #youmove, #changeorg {
+    width: calc(100% / 2 - 2rem);
+    flex: unset;
+    padding: 0 2rem 2rem 2rem;
+  }
+}
 
+.chartjs {
+  margin: 1rem 0;
+}
 
 .container.flash {
   position: relative;
