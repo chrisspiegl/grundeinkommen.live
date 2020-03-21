@@ -22,6 +22,10 @@ module.exports = () => {
       bodyClasses: 'pageHome'
     }
 
+
+    /**
+    changeOrg =======================================
+    */
     response.changeOrgDe = await models.ValuesInt.findAll({
       where: {
         key: 'change-org-bge-de'
@@ -50,6 +54,44 @@ module.exports = () => {
 
     response.chartChangeOrg = chartChangeOrg
 
+    /**
+    youmove =======================================
+    */
+
+    response.youMove = await models.ValuesInt.findAll({
+      where: {
+        key: 'youMove-eu-grundeinkommen'
+      },
+      order: [['createdAt', 'ASC']]
+    })
+
+    response.youMoveCurrent = response.youMove.slice(-1)[0]
+
+    const chartYouMove = {
+      labels: [],
+      values: [],
+      valuesRaw: []
+    }
+    hourLast = moment().add(1, 'hour').startOf('hour')
+    for (let change of response.youMove) {
+      const hourCurrent = moment(change.createdAt).startOf('hour')
+      if (hourLast.isSame(hourCurrent)) {
+        continue
+      }
+      console.log('hourCurrent: ', hourCurrent.format());
+      hourLast = hourCurrent
+      console.log('hourLast: ', hourLast.format());
+      chartYouMove.labels.push(hourLast.tz('Europe/Berlin').format('YYYY-MM-DD HH:mm'))
+      chartYouMove.values.push(numeral(change.value).format('0.0'))
+      chartYouMove.valuesRaw.push(change.value)
+    }
+
+    response.chartYouMove = chartYouMove
+
+
+    /**
+    meinbge =======================================
+    */
     response.meinbgeGrundeinkommen = await models.ValuesInt.findOne({
       where: {
         key: 'meinbge-de-grundeinkommen'

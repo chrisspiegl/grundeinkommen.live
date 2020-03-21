@@ -23,7 +23,7 @@ const urls = [
   }
 ]
 
-const configParallelAccessPages = 5
+const configParallelAccessPages = 1
 const configPuppeteerHeadless = true
 
 const startBrowser = async () => {
@@ -46,6 +46,8 @@ const fetchModel = async (browser, key, url) => {
   const petitionData = changeTargetingData.petition
   const signatureTotal = petitionData.signatureCount.total
   const signatureGoal = petitionData.signatureCount.goal
+
+  log(`Logging ${signatureTotal} for change-org-grundeinkommen`)
 
   const dateNow = moment().startOf('day')
   const timeNow = moment().format('HH:mm:ss')

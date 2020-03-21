@@ -7,23 +7,31 @@ const log = debug(`${config.slug}:crawler`)
 log.log = console.log.bind(console)
 const error = debug(`${config.slug}:crawler:error`)
 
+const pLimit = require('p-limit')
 const moment = require('moment-timezone')
 moment.tz.setDefault('UTC')
 
 const crawlers = [
+  require('./changeOrg'),
   require('./meinbge'),
-  require('./changeOrg')
+  require('./youmove'),
 ]
 
 const models = require('../database/models')
+
+const configParallelAccessPages = 1
 
 const start = async () => {
   log('Starting Crawler')
   await models.init()
 
-  for (crawler of crawlers) {
-    await crawler.start()
-  }
+  const pLimiter = pLimit(configParallelAccessPages)
+
+  const promises = crawlers.map((crawler) => {
+    return pLimiter(async () => crawler.start())
+  })
+
+  await Promise.all(promises)
 
   log('Finished Crawling All')
   process.exit()

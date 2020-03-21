@@ -3,9 +3,9 @@ const path = require('path')
 const config = require(path.join(__dirname, '../config'))
 
 const debug = require('debug')
-const log = debug(`${config.slug}:crawler:meinBge`)
+const log = debug(`${config.slug}:crawler:youmove`)
 log.log = console.log.bind(console)
-const error = debug(`${config.slug}:crawler:meinBge:error`)
+const error = debug(`${config.slug}:crawler:youmove:error`)
 
 const axios = require('axios')
 const cheerio = require('cheerio')
@@ -18,56 +18,37 @@ const models = require('../database/models')
 
 const urls = [
   {
-    key: 'meinbge-de',
-    url: 'https://www.mein-grundeinkommen.de/'
+    key: 'youmove-eu-grundeinkommen',
+    url: 'https://you.wemove.eu/campaigns/notfall-grundeinkommen'
   }
 ]
 
 const configParallelAccessPages = 1
 
 const fetchModel = async (key, url) => {
-  log('Loading data for meinBge')
+  log(`Loading data for youmove - ${url}`)
   const crawlResult = await axios.get(url)
   const $ = cheerio.load(crawlResult.data)
 
   const dateNow = moment().startOf('day')
   const timeNow = moment().format('HH:mm:ss')
 
-  const $selection = $('#frontpage-scroll-destination span.h0')
-  let numberDonors
-  let numberGrundeinkommen
-  await $selection.map(async function (i, el) {
-    const number = parseInt($(el).html().replace('.', ''))
-    switch (i) {
-      case 0:
-        log(`Logging ${number} for meinbge-de-donors`)
-        numberDonors = number
-        break
-      case 1:
-        log(`Logging ${number} for meinbge-de-grundeinkommen`)
-        numberGrundeinkommen = number
-        break
-    }
-  })
+  const $selection = $('.signature-counter')
 
+  const numberSignatures = parseInt($selection.html().replace('.', ''))
+  log(`Logging ${numberSignatures} for youmove-eu-grundeinkommen`)
   await models.ValuesInt.create({
-    key: 'meinbge-de-donors',
+    key: 'youmove-eu-grundeinkommen',
     date: dateNow,
     time: timeNow,
-    value: numberDonors
-  })
-  await models.ValuesInt.create({
-    key: 'meinbge-de-grundeinkommen',
-    date: dateNow,
-    time: timeNow,
-    value: numberGrundeinkommen
+    value: numberSignatures
   })
 
   log(`Crawled and put it in Database ${key}`)
 }
 
 const start = async () => {
-  log(`Running meinBge Crawler in ${process.env.NODE_ENV} environment`)
+  log(`Running youmove Crawler in ${process.env.NODE_ENV} environment`)
 
   const pLimiter = pLimit(configParallelAccessPages)
 
@@ -78,7 +59,7 @@ const start = async () => {
   await Promise.all(promises)
 
   // TODO: DO not understand why this is firing before the actual create / already have logs appear
-  log('Finished running meinBge crawler')
+  log('Finished running youmove crawler')
 }
 
 module.exports = {
