@@ -14,6 +14,7 @@ pmx.init({ http: true })
 
 const bodyParser = require('body-parser')
 const compression = require('compression')
+const cors = require('cors')
 const express = require('express')
 const expressStatusMonitor = require('express-status-monitor')
 const flash = require('express-flash')
