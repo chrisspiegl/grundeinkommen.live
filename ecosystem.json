@@ -26,6 +26,29 @@
         DEBUG: 'siubi:*',
       },
     },
+    {
+      name: "ubi-crawler",
+      append_env_to_name: true,
+      script: "./crawler/index.js",
+      watch: false,
+      exec_mode: "fork",
+      autorestart: false,
+      // instances: (process.env.NODE_ENV == 'production' || process.env.NODE_ENV == 'development') ? 'max' : 1,
+      instances: 1,
+      log_date_format: "YYYY-MM-DD HH:mm Z",
+      env: {
+        NODE_ENV: 'local',
+        DEBUG: 'siubi:*',
+      },
+      env_production : {
+        NODE_ENV: "production",
+        DEBUG: 'siubi:*',
+      },
+      env_development: {
+        NODE_ENV: "development",
+        DEBUG: 'siubi:*',
+      },
+    },
   ],
 
   /**
