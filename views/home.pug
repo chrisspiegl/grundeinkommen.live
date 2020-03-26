@@ -17,7 +17,13 @@ block content
           p.data= numeral(changeOrg1h).format('0,0')
             br
             | neue Unterschriften
-      canvas.chartjs#chartChangeOrg
+      div.charts.center
+        button.toggle()
+          span.daily.active Daily
+          = ' / '
+          span.hourly Hourly
+        canvas.chartjs.chartDaily#chartChangeOrgDay
+        canvas.chartjs.chartHourly.hidden#chartChangeOrg
       p Die Daten sind ab 21.3. pro Stunde aufgeführt. Vorhergehende Daten sind nur in größeren Sprüngen verfügbar.
       .flexContainer.two
         p.flexColumn.source.center
@@ -39,7 +45,13 @@ block content
           p.data= numeral(youMove1h).format('0,0')
             br
             | neue Unterschriften
-      canvas.chartjs#chartYouMove
+      div.charts.center
+        button.toggle()
+          span.daily.active Daily
+          = ' / '
+          span.hourly Hourly
+        canvas.chartjs.chartDaily#chartYouMoveDay
+        canvas.chartjs.chartHourly.hidden#chartYouMove
       p Die Daten sind ab 21.3. pro Stunde aufgeführt.
       .flexContainer.two
         p.flexColumn.source.center
@@ -126,6 +138,59 @@ block footerJs
       }
     });
 
+    const chartChangeOrgDayContext = document.getElementById('chartChangeOrgDay').getContext('2d');
+    const chartChangeOrgDay = new Chart(chartChangeOrgDayContext, {
+      type: 'line',
+      data: {
+        labels: !{JSON.stringify(chartChangeOrgDay.labels)},
+        datasets: [
+          {
+            label: 'Signatures',
+            data: !{JSON.stringify(chartChangeOrgDay.valuesRaw)},
+            borderColor: '#cc5630',
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            cubicInterpolationMode: 'monotone',
+          },
+        ]
+      },
+      options: {
+        legend: {
+          display: false,
+        },
+        tooltips: {
+          mode: 'index',
+          callbacks: {
+            label: function(tooltipItem, data) {
+              numeral.locale('de-cs')
+              return 'Signatures: ' + numeral(tooltipItem.yLabel).format('0,0');
+            }
+          }
+        },
+        scales: {
+          yAxes: [{
+              id: 'default',
+              ticks: {
+                beginAtZero: true,
+                callback: function(label, index, labels) {
+                  // when the floored value is the same as the value we have a whole number
+                  if (Math.floor(label) === label) {
+                    return numeral(label).format('0,0');
+                  }
+                  return;
+                },
+              },
+            },
+          ],
+        },
+        elements: {
+          line: {
+            skipNull: false,
+            drawNull: true,
+          }
+        }
+      }
+    });
+
     const chartYouMoveContext = document.getElementById('chartYouMove').getContext('2d');
     const chartYouMove = new Chart(chartYouMoveContext, {
       type: 'line',
@@ -135,6 +200,59 @@ block footerJs
           {
             label: 'Signatures',
             data: !{JSON.stringify(chartYouMove.valuesRaw)},
+            borderColor: '#cc5630',
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            cubicInterpolationMode: 'monotone',
+          },
+        ]
+      },
+      options: {
+        legend: {
+          display: false,
+        },
+        tooltips: {
+          mode: 'index',
+          callbacks: {
+            label: function(tooltipItem, data) {
+              numeral.locale('de-cs')
+              return 'Signatures: ' + numeral(tooltipItem.yLabel).format('0,0');
+            }
+          }
+        },
+        scales: {
+          yAxes: [{
+              id: 'default',
+              ticks: {
+                beginAtZero: false,
+                callback: function(label, index, labels) {
+                  // when the floored value is the same as the value we have a whole number
+                  if (Math.floor(label) === label) {
+                    return numeral(label).format('0,0');
+                  }
+                  return;
+                },
+              },
+            },
+          ],
+        },
+        elements: {
+          line: {
+            skipNull: false,
+            drawNull: true,
+          }
+        }
+      }
+    });
+
+    const chartYouMoveDayContext = document.getElementById('chartYouMoveDay').getContext('2d');
+    const chartYouMoveDay = new Chart(chartYouMoveDayContext, {
+      type: 'line',
+      data: {
+        labels: !{JSON.stringify(chartYouMoveDay.labels)},
+        datasets: [
+          {
+            label: 'Signatures',
+            data: !{JSON.stringify(chartYouMoveDay.valuesRaw)},
             borderColor: '#cc5630',
             backgroundColor: 'rgba(0, 0, 0, 0)',
             cubicInterpolationMode: 'monotone',

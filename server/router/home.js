@@ -40,19 +40,35 @@ module.exports = () => {
       values: [],
       valuesRaw: []
     }
+    const chartChangeOrgDay = {
+      labels: [],
+      values: [],
+      valuesRaw: []
+    }
     let hourLast = moment().add(1, 'hour').startOf('hour')
+    let dayLast = moment().add(1, 'day').startOf('day')
     for (let change of response.changeOrgDe) {
       const hourCurrent = moment(change.createdAt).startOf('hour')
+      const dayCurrent = moment(change.createdAt).startOf('day')
+
       if (hourLast.isSame(hourCurrent)) {
-        continue
+      } else {
+        hourLast = hourCurrent
+        chartChangeOrg.labels.push(hourLast.tz('Europe/Berlin').format('YYYY-MM-DD HH:mm'))
+        chartChangeOrg.values.push(numeral(change.value).format('0.0'))
+        chartChangeOrg.valuesRaw.push(change.value)
       }
-      hourLast = hourCurrent
-      chartChangeOrg.labels.push(hourLast.tz('Europe/Berlin').format('YYYY-MM-DD HH:mm'))
-      chartChangeOrg.values.push(numeral(change.value).format('0.0'))
-      chartChangeOrg.valuesRaw.push(change.value)
+      if (dayLast.isSame(dayCurrent)) {
+      } else {
+        dayLast = dayCurrent
+        chartChangeOrgDay.labels.push(dayLast.tz('Europe/Berlin').format('YYYY-MM-DD'))
+        chartChangeOrgDay.values.push(numeral(change.value).format('0.0'))
+        chartChangeOrgDay.valuesRaw.push(change.value)
+      }
     }
 
     response.chartChangeOrg = chartChangeOrg
+    response.chartChangeOrgDay = chartChangeOrgDay
 
     let hourLast1 = moment().subtract(2, 'hours').startOf('hour')
     let hourLast24 = moment().subtract(24, 'hours').startOf('hour')
@@ -88,19 +104,34 @@ module.exports = () => {
       values: [],
       valuesRaw: []
     }
+    const chartYouMoveDay = {
+      labels: [],
+      values: [],
+      valuesRaw: []
+    }
     hourLast = moment().add(1, 'hour').startOf('hour')
+    dayLast = moment().add(1, 'day').startOf('day')
     for (let change of response.youMove) {
       const hourCurrent = moment(change.createdAt).startOf('hour')
+      const dayCurrent = moment(change.createdAt).startOf('day')
       if (hourLast.isSame(hourCurrent)) {
-        continue
+      } else {
+        hourLast = hourCurrent
+        chartYouMove.labels.push(hourLast.tz('Europe/Berlin').format('YYYY-MM-DD HH:mm'))
+        chartYouMove.values.push(numeral(change.value).format('0.0'))
+        chartYouMove.valuesRaw.push(change.value)
       }
-      hourLast = hourCurrent
-      chartYouMove.labels.push(hourLast.tz('Europe/Berlin').format('YYYY-MM-DD HH:mm'))
-      chartYouMove.values.push(numeral(change.value).format('0.0'))
-      chartYouMove.valuesRaw.push(change.value)
+      if (dayLast.isSame(dayCurrent)) {
+      } else {
+        dayLast = dayCurrent
+        chartYouMoveDay.labels.push(dayLast.tz('Europe/Berlin').format('YYYY-MM-DD'))
+        chartYouMoveDay.values.push(numeral(change.value).format('0.0'))
+        chartYouMoveDay.valuesRaw.push(change.value)
+      }
     }
 
     response.chartYouMove = chartYouMove
+    response.chartYouMoveDay = chartYouMoveDay
 
     let youMove24h, youMove1h;
     for (let change of response.youMove) {

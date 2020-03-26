@@ -33,6 +33,38 @@ body {
   }
 }
 
+.charts {
+  margin-top: -2rem;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.active {
+  // text-shadow: 0 0 2px #cc5630;
+  color: #cc5630;
+  // text-decoration: underline;
+}
+
+button.toggle {
+  color: hsl(210, 10%, 62%);
+  background-color: transparent;
+  font-weight: normal;
+  margin: .5rem;
+  padding: 0 0 0 0;
+  border: 0;
+}
+
+.toggle:hover {
+  background-color: transparent;
+  font-weight: normal;
+  margin: .5rem;
+  padding: 0 0 0 0;
+  border: 0;
+  color: hsl(210, 10%, 62%);
+}
+
 .container {
   margin: auto;
   width: 80%;
@@ -91,7 +123,7 @@ body {
 }
 
 .chartjs {
-  margin: 1rem 0;
+  margin: 0 0 1rem;
 }
 
 .container.flash {
