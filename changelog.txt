@@ -1,5 +1,9 @@
 # Changelog
 
+## 2020-03-26 10:02
+
+- Added daily/hourly graphs and javascript to switch between them
+
 ## 2020-03-21 19:22
 
 - Added last 24 hours and last hour new signatures
