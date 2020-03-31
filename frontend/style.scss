@@ -115,8 +115,16 @@ button.toggle {
 
 
 @media screen and (min-width:1080px) {
-  #youmove, #changeorg {
+  #youmove, #changeorg, #bundestag {
     width: calc(100% / 2 - 2rem);
+    flex: unset;
+    padding: 0 2rem 2rem 2rem;
+  }
+}
+
+@media screen and (min-width:1500px) {
+  #youmove, #changeorg, #bundestag {
+    width: calc(100% / 3 - 2rem);
     flex: unset;
     padding: 0 2rem 2rem 2rem;
   }

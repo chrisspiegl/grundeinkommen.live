@@ -1,5 +1,9 @@
 # Changelog
 
+## 2020-03-31 20:25
+
+- Added petition for the German Bundestag (https://epetitionen.bundestag.de/petitionen/_2020/_03/_14/Petition_108191.nc.html)
+
 ## 2020-03-26 10:02
 
 - Added daily/hourly graphs and javascript to switch between them

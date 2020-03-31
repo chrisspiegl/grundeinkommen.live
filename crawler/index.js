@@ -12,6 +12,7 @@ const moment = require('moment-timezone')
 moment.tz.setDefault('UTC')
 
 const crawlers = [
+  require('./bundestag'),
   require('./changeOrg'),
   require('./meinbge'),
   require('./youmove'),

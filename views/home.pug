@@ -30,6 +30,34 @@ block content
           a(href="https://www.change.org/p/finanzminister-olaf-scholz-und-wirtschaftsminister-peter-altmaier-mit-dem-bedingungslosen-grundeinkommen-durch-die-coronakrise-coronavirusde-olafscholz-peteraltmaier") Quelle
         p.flexColumn.center Letztes Update #[abbr(title=moment(changeOrgDeCurrent.createdAt).tz('Europe/Berlin')) #{moment(changeOrgDeCurrent.createdAt).tz('Europe/Berlin').locale('de').fromNow()}]
 
+    .container#bundestag
+      h2 Bundestag
+      h1 #{numeral(bundestagCurrent.value).format('0,0')} Menschen sind für Grundeinkommen in der Krise
+      p Bei der Petition geht es darum, insbesondere wegen der Corona Krise, für die Zeit der Krise ein Grundeinkommen für alle Bürger einzuführen. #[a(href="https://epetitionen.bundestag.de/petitionen/_2020/_03/_14/Petition_108191.nc.html") Alle Informationen & Unterschreiben].
+      .flexContainer.two
+        .flexColumn
+          h4.title Letzte 24 Stunden
+          p.data= numeral(bundestag24h).format('0,0')
+            br
+            | neue Unterschriften
+        .flexColumn
+          h4.title Letzte Stunde
+          p.data= numeral(bundestag1h).format('0,0')
+            br
+            | neue Unterschriften
+      div.charts.center
+        button.toggle()
+          span.daily.active Daily
+          = ' / '
+          span.hourly Hourly
+        canvas.chartjs.chartDaily#chartBundestagDay
+        canvas.chartjs.chartHourly.hidden#chartBundestag
+      p Die Daten sind ab 31.3. pro Stunde aufgeführt.
+      .flexContainer.two
+        p.flexColumn.source.center
+          a(href="https://epetitionen.bundestag.de/petitionen/_2020/_03/_14/Petition_108191.nc.html") Quelle
+        p.flexColumn.center Letztes Update #[abbr(title=moment(bundestagCurrent.createdAt).tz('Europe/Berlin')) #{moment(bundestagCurrent.createdAt).tz('Europe/Berlin').locale('de').fromNow()}]
+
     .container#youmove
       h2 You.WeMove.eu
       h1 #{numeral(youMoveCurrent.value).format('0,0')} Menschen sind für Notfall-Grundeinkommen für die EU - jetzt!
@@ -147,6 +175,112 @@ block footerJs
           {
             label: 'Signatures',
             data: !{JSON.stringify(chartChangeOrgDay.valuesRaw)},
+            borderColor: '#cc5630',
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            cubicInterpolationMode: 'monotone',
+          },
+        ]
+      },
+      options: {
+        legend: {
+          display: false,
+        },
+        tooltips: {
+          mode: 'index',
+          callbacks: {
+            label: function(tooltipItem, data) {
+              numeral.locale('de-cs')
+              return 'Signatures: ' + numeral(tooltipItem.yLabel).format('0,0');
+            }
+          }
+        },
+        scales: {
+          yAxes: [{
+              id: 'default',
+              ticks: {
+                beginAtZero: true,
+                callback: function(label, index, labels) {
+                  // when the floored value is the same as the value we have a whole number
+                  if (Math.floor(label) === label) {
+                    return numeral(label).format('0,0');
+                  }
+                  return;
+                },
+              },
+            },
+          ],
+        },
+        elements: {
+          line: {
+            skipNull: false,
+            drawNull: true,
+          }
+        }
+      }
+    });
+
+    const chartBundestagContext = document.getElementById('chartBundestag').getContext('2d');
+    const chartBundestag = new Chart(chartBundestagContext, {
+      type: 'line',
+      data: {
+        labels: !{JSON.stringify(chartBundestag.labels)},
+        datasets: [
+          {
+            label: 'Signatures',
+            data: !{JSON.stringify(chartBundestag.valuesRaw)},
+            borderColor: '#cc5630',
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            cubicInterpolationMode: 'monotone',
+          },
+        ]
+      },
+      options: {
+        legend: {
+          display: false,
+        },
+        tooltips: {
+          mode: 'index',
+          callbacks: {
+            label: function(tooltipItem, data) {
+              numeral.locale('de-cs')
+              return 'Signatures: ' + numeral(tooltipItem.yLabel).format('0,0');
+            }
+          }
+        },
+        scales: {
+          yAxes: [{
+              id: 'default',
+              ticks: {
+                beginAtZero: true,
+                callback: function(label, index, labels) {
+                  // when the floored value is the same as the value we have a whole number
+                  if (Math.floor(label) === label) {
+                    return numeral(label).format('0,0');
+                  }
+                  return;
+                },
+              },
+            },
+          ],
+        },
+        elements: {
+          line: {
+            skipNull: false,
+            drawNull: true,
+          }
+        }
+      }
+    });
+
+    const chartBundestagDayContext = document.getElementById('chartBundestagDay').getContext('2d');
+    const chartBundestagDay = new Chart(chartBundestagDayContext, {
+      type: 'line',
+      data: {
+        labels: !{JSON.stringify(chartBundestagDay.labels)},
+        datasets: [
+          {
+            label: 'Signatures',
+            data: !{JSON.stringify(chartBundestagDay.valuesRaw)},
             borderColor: '#cc5630',
             backgroundColor: 'rgba(0, 0, 0, 0)',
             cubicInterpolationMode: 'monotone',

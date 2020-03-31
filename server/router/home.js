@@ -87,6 +87,70 @@ module.exports = () => {
 
 
     /**
+    bundestag =======================================
+    */
+    response.bundestag = await models.ValuesInt.findAll({
+      where: {
+        key: 'bundestag-108191'
+      },
+      order: [['createdAt', 'ASC']]
+    })
+
+    response.bundestagCurrent = response.bundestag.slice(-1)[0]
+
+    const chartBundestag = {
+      labels: [],
+      values: [],
+      valuesRaw: []
+    }
+    const chartBundestagDay = {
+      labels: [],
+      values: [],
+      valuesRaw: []
+    }
+    hourLast = moment().add(1, 'hour').startOf('hour')
+    dayLast = moment().add(1, 'day').startOf('day')
+    for (let change of response.bundestag) {
+      const hourCurrent = moment(change.createdAt).startOf('hour')
+      const dayCurrent = moment(change.createdAt).startOf('day')
+
+      if (hourLast.isSame(hourCurrent)) {
+      } else {
+        hourLast = hourCurrent
+        chartBundestag.labels.push(hourLast.tz('Europe/Berlin').format('YYYY-MM-DD HH:mm'))
+        chartBundestag.values.push(numeral(change.value).format('0.0'))
+        chartBundestag.valuesRaw.push(change.value)
+      }
+      if (dayLast.isSame(dayCurrent)) {
+      } else {
+        dayLast = dayCurrent
+        chartBundestagDay.labels.push(dayLast.tz('Europe/Berlin').format('YYYY-MM-DD'))
+        chartBundestagDay.values.push(numeral(change.value).format('0.0'))
+        chartBundestagDay.valuesRaw.push(change.value)
+      }
+    }
+
+    response.chartBundestag = chartBundestag
+    response.chartBundestagDay = chartBundestagDay
+
+    hourLast1 = moment().subtract(2, 'hours').startOf('hour')
+    hourLast24 = moment().subtract(24, 'hours').startOf('hour')
+    let bundestag24h, bundestag1h;
+    for (let change of response.bundestag) {
+      if (!bundestag1h && moment(change.createdAt).startOf('hour').isAfter(hourLast1)) {
+        bundestag1h = change
+      }
+      if (!bundestag24h && moment(change.createdAt).startOf('hour').isAfter(hourLast24)) {
+        bundestag24h = change
+      }
+    }
+
+    response.bundestag1h = (bundestag1h) ? response.bundestagCurrent.value - bundestag1h.value : 0
+    response.bundestag24h = (bundestag24h) ? response.bundestagCurrent.value - bundestag24h.value : 0
+
+
+
+    /**
     youmove =======================================
     */
 
