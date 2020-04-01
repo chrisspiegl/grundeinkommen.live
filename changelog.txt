@@ -1,5 +1,10 @@
 # Changelog
 
+## 2020-04-01 14:58
+
+- Fix Mein-Grundeinkommen.de error because they changed the website.
+- Trying to catch website changes in the future by sending myself [https://PushNotice.Chat](https://PushNotice.Chat) (Telegram Notification Service created by Chris Spiegl)
+
 ## 2020-03-31 20:25
 
 - Added petition for the German Bundestag (https://epetitionen.bundestag.de/petitionen/_2020/_03/_14/Petition_108191.nc.html)

@@ -18,6 +18,7 @@ const crawlers = [
   require('./youmove'),
 ]
 
+const pnotice = require('pushnotice')(`${config.slug}:crawler:meinBge`, { env: config.env, chat: config.pushnotice.chat, debug: true, disabled: config.pushnotice.disabled })
 const models = require('../database/models')
 
 const configParallelAccessPages = 1
@@ -44,3 +45,31 @@ const start = async () => {
   job.start();
 }
 start()
+
+
+// Graceful shutdown
+process.on('SIGINT', async () => {
+  const cleanUp = async () => {
+    // Clean up other resources like DB connections
+    log('closing database connection')
+    await models.sequelize.close()
+  }
+
+  // Force close server after 5secs
+  setTimeout(async (e) => {
+    log('Forcing server close !!!', e)
+
+    await cleanUp()
+    process.exit(1)
+  }, 10000) // 10 seconds
+
+  log('Closing crawler...')
+
+  await cleanUp()
+  process.exit()
+})
+
+process.on('unhandledRejection', async (reason, promise) => {
+  error('unhandledRejection', reason.stack || reason, promise)
+  pnotice(`unhandledRejection:\n${JSON.stringify(reason)}`, 'ERROR')
+})

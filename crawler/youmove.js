@@ -15,6 +15,7 @@ const pLimit = require('p-limit')
 moment.tz.setDefault('UTC')
 
 const models = require('../database/models')
+const pnotice = require('pushnotice')(`${config.slug}:crawler:meinBge`, { env: config.env, chat: config.pushnotice.chat, debug: true, disabled: config.pushnotice.disabled })
 
 const urls = [
   {
@@ -37,14 +38,20 @@ const fetchModel = async (key, url) => {
 
   const numberSignatures = parseInt($selection.html().replace('.', ''))
   log(`Logging ${numberSignatures} for youmove-eu-grundeinkommen`)
-  await models.ValuesInt.create({
-    key: 'youmove-eu-grundeinkommen',
-    date: dateNow,
-    time: timeNow,
-    value: numberSignatures
-  })
 
-  log(`Crawled and put it in Database ${key}`)
+  if (numberSignatures) {
+    await models.ValuesInt.create({
+      key: 'youmove-eu-grundeinkommen',
+      date: dateNow,
+      time: timeNow,
+      value: numberSignatures
+    })
+
+    log(`Crawled and put it in Database ${key}`)
+  } else {
+    log(`No valid value for ${key}`)
+    pnotice(`${key} — Crawler could not find value for numberSignatures`)
+  }
 }
 
 const start = async () => {

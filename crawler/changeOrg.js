@@ -15,6 +15,7 @@ const puppeteer = require('puppeteer')
 moment.tz.setDefault('UTC')
 
 const models = require('../database/models')
+const pnotice = require('pushnotice')(`${config.slug}:crawler:meinBge`, { env: config.env, chat: config.pushnotice.chat, debug: true, disabled: config.pushnotice.disabled })
 
 const urls = [
   {
@@ -28,7 +29,21 @@ const configPuppeteerHeadless = true
 
 const startBrowser = async () => {
   return puppeteer.launch({
-    headless: configPuppeteerHeadless // set to false to see the browser actions live
+    headless: configPuppeteerHeadless, // set to false to see the browser actions live
+    args: [
+      // '--disable-dev-profile',
+      '--disable-geolocation',
+      '--disable-gpu',
+      '--disable-infobars',
+      '--disable-notifications',
+      // '--disable-session-crashed-bubble',
+      // '--disable-setuid-sandbox',
+      // '--disable-web-security',
+      // '--no-sandbox',
+      // '--no-zygote',
+      '--silent-debugger-extension-api',
+      '--single-process',
+    ],
   })
 }
 
@@ -52,14 +67,21 @@ const fetchModel = async (browser, key, url) => {
   const dateNow = moment().startOf('day')
   const timeNow = moment().format('HH:mm:ss')
 
-  const dbObject = {
-    key: key,
-    date: dateNow,
-    time: timeNow,
-    value: signatureTotal
+
+  if (signatureTotal) {
+    const dbObject = {
+      key: key,
+      date: dateNow,
+      time: timeNow,
+      value: signatureTotal
+    }
+    await models.ValuesInt.create(dbObject)
+    log(`Crawled and put it in Database ${key}`)
+  } else {
+    log(`No valid value for ${key}`)
+    pnotice(`${key} — Crawler could not find value for numberSignatures`)
   }
-  await models.ValuesInt.create(dbObject)
-  log(`Crawled and put it in Database ${key}`)
+
 }
 
 const start = async () => {

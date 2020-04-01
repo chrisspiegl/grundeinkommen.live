@@ -18,6 +18,7 @@ axiosCookieJarSupport(axios)
 moment.tz.setDefault('UTC')
 
 const models = require('../database/models')
+const pnotice = require('pushnotice')(`${config.slug}:crawler:meinBge`, { env: config.env, chat: config.pushnotice.chat, debug: true, disabled: config.pushnotice.disabled })
 
 const urls = [
   {
@@ -45,14 +46,18 @@ const fetchModel = async (key, url) => {
 
   log(`Logging ${numberGrundeinkommen} for bundestag-108191`)
 
-  await models.ValuesInt.create({
-    key: 'bundestag-108191',
-    date: dateNow,
-    time: timeNow,
-    value: numberGrundeinkommen
-  })
-
-  log(`Crawled and put it in Database ${key}`)
+  if (numberGrundeinkommen) {
+    await models.ValuesInt.create({
+      key: 'bundestag-108191',
+      date: dateNow,
+      time: timeNow,
+      value: numberGrundeinkommen
+    })
+    log(`Crawled and put it in Database ${key}`)
+  } else {
+    log(`No valid value for ${key}`)
+    pnotice(`${key} — Crawler could not find value for numberSignatures`)
+  }
 }
 
 const start = async () => {
