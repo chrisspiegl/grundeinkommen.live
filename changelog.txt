@@ -1,5 +1,14 @@
 # Changelog
 
+## 2020-04-02 17:40
+
+- Added "Buy Me a Coffee" link instead of the "Made by Chris"
+
+## 2020-04-02 13:51
+
+- Reduce code duplication by generating accumulated data and charts in one function and just work with database keys to input.
+- Added cache to the data generation to reduce load time (just a in memory cache with `node-cache`). This reduced the page render time from 1s to almost 0 once the first request is rendered. Cache has a TTL of 5 minutes.
+
 ## 2020-04-01 14:58
 
 - Fix Mein-Grundeinkommen.de error because they changed the website.
