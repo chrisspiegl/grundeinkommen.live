@@ -1,20 +1,16 @@
-
 footer {
   padding-top: 8rem;
   padding-bottom: 4rem;
   text-align: center;
-
   p {
     text-align: center;
     line-height: 1;
     font-size: 0.8rem;
   }
-
   a {
     text-decoration: none;
   }
 }
-
 a.madeBy {
   display: block;
   position: fixed;
@@ -32,11 +28,40 @@ a.madeBy {
   font-size: 1rem;
   font-style: italic;
   transition-property: all;
-  transition-duration: 0.5s;
+  transition-duration: 0.2s;
   &:hover {
     color: #101318;
     text-decoration: none;
     background-color: #cc5630;
     border-color: darken(#cc5630, 20%);
   }
+}
+.bmc-button {
+  display: block;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  z-index: 97;
+  padding: .2rem .4rem 0rem !important;
+  text-decoration: none !important;
+  color: #FFFFFF !important;
+  background-color: #cc5630 !important;
+  border-radius: .5rem 0 0 0 !important;
+  border: 1px solid transparent !important;
+  letter-spacing: 0.6px !important;
+  font-family: 'Cookie', cursive !important;
+  transition: 0.3s all linear !important;
+}
+.bmc-button img {
+  height: 1.8rem !important;
+  width: 1.8rem !important;
+  margin-bottom: .5rem !important;
+  box-shadow: none !important;
+  border: none !important;
+  vertical-align: middle !important;
+}
+.bmc-button:hover, .bmc-button:active, .bmc-button:focus {
+  text-decoration: none !important;
+  opacity: 0.85 !important;
+  color: #FFFFFF !important;
 }

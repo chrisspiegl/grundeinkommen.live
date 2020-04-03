@@ -77,10 +77,16 @@ body(
   block content
 
   footer
-    p #{moment().year()} | #[a(href="https://chrisspiegl.com/legal-disclosure/") Imprint]
+    p #{moment().year()} | Made by #[a(href="https://ChrisSpiegl.com?utm_source=footer&utm_medium=ubi&utm_campaign=MadeBy") Chris Spiegl] | #[a(href="https://chrisspiegl.com/legal-disclosure/") Imprint]
 
-  a.madeBy(href="https://ChrisSpiegl.com/support?utm_source=footer&utm_medium=ubi&utm_campaign=MadeBy" target="_blank")
+  //- a.madeBy(href="https://ChrisSpiegl.com/support?utm_source=footer&utm_medium=ubi&utm_campaign=MadeBy" target="_blank")
     span Buy Me a Coffee?
+
+  link(href='https://fonts.googleapis.com/css?family=Cookie' rel='stylesheet')
+  a.bmc-button(target='_blank' href='https://www.buymeacoffee.com/chrisspiegl')
+    img(src='https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg' alt='Buy me a coffee')
+    span(style='margin-left:.2rem;font-size:1.5rem !important;') Buy me a Tea
+
 
   script(src="/assets/script.js")
 
