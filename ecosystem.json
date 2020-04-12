@@ -57,11 +57,11 @@
    */
   deploy : {
     production : {
-      user: "node",
-      host: "doSpieglCO-node",
+      user: "deploy",
+      host: "swMain",
       ref: "origin/master",
       repo: "git@github.com:chrisspiegl/grundeinkommen.live.git",
-      path: "/home/node/grundeinkommen.live",
+      path: "/home/deploy/grundeinkommen.live-production",
       "post-deploy": "NODE_ENV=production pm2 reload ecosystem.json --only ubi-web --env production",
       env: {},
     },
