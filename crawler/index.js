@@ -7,8 +7,9 @@ const log = debug(`${config.slug}:crawler`)
 log.log = console.log.bind(console)
 const error = debug(`${config.slug}:crawler:error`)
 
-const pLimit = require('p-limit')
+const cron = require('cron')
 const moment = require('moment-timezone')
+const pLimit = require('p-limit')
 moment.tz.setDefault('UTC')
 
 const crawlers = [
@@ -21,12 +22,12 @@ const crawlers = [
 const pnotice = require('pushnotice')(`${config.slug}:crawler:meinBge`, { env: config.env, chat: config.pushnotice.chat, debug: true, disabled: config.pushnotice.disabled })
 const models = require('../database/models')
 
-const configParallelAccessPages = 1
+const configParallelCrawlers = 1
 
 const run = async () => {
   log('Running Crawler')
 
-  const pLimiter = pLimit(configParallelAccessPages)
+  const pLimiter = pLimit(configParallelCrawlers)
 
   const promises = crawlers.map((crawler) => {
     return pLimiter(async () => crawler.start())
@@ -40,7 +41,7 @@ const run = async () => {
 const start = async () => {
   log('Starting Crawler')
   await models.init()
-  const CronJob = require('cron').CronJob;
+  const CronJob = cron.CronJob;
   const job = new CronJob('0 */5 * * * *', run, null, true, 'Europe/Berlin', this, true);
   job.start();
 }
