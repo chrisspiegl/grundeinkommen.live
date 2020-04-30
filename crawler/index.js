@@ -12,8 +12,9 @@ const pLimit = require('p-limit')
 moment.tz.setDefault('UTC')
 
 const crawlers = [
-  // require('./bundestag'),
+  // require('./bundestag'), // no longer needed because the petition has ended.
   require('./changeOrg'),
+  require('./expeditionGrundeinkommen'),
   require('./meinbge'),
   require('./youmove'),
 ]
