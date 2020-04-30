@@ -68,7 +68,7 @@ module.exports = {
       ref: "origin/master",
       repo: "git@github.com:chrisspiegl/grundeinkommen.live.git",
       path: "/home/deploy/grundeinkommen.live-production",
-      "post-deploy": "NODE_ENV=production pm2 reload ecosystem.js --only ubi-web --env production",
+      "post-deploy": "NODE_ENV=production pm2 reload ecosystem.config.js --only ubi-web --env production",
       env: {},
     },
     // dev : {
@@ -78,7 +78,7 @@ module.exports = {
     //   ref: "origin/master",
     //   repo: "git@github.com:chrisspiegl/NetworkPersonalConnections.git",
     //   path: "/home/node/network.chrisspiegl.com/development",
-    //   "post-deploy": "npm run nsinstall && npm run nsupdate && NODE_ENV=development pm2 reload ecosystem.js --env development --source-map-support",
+    //   "post-deploy": "npm run nsinstall && npm run nsupdate && NODE_ENV=development pm2 reload ecosystem.config.js --env development --source-map-support",
     //   env: {}
     // }
   }
