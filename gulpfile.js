@@ -1,4 +1,6 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'local'
+process.env.NODE_PATH = process.env.NODE_PATH || '.'
+require("module").Module._initPaths(); // this is needed to update NODE_PATH at runtime of Gulp
 const path = require('path')
 const config = require(path.join(__dirname, './config'))
 
@@ -181,6 +183,7 @@ gulp.task('startWebserver', function (cb) {
     watch: ['server'],
     env: {
       LOCALTUNNEL: 0,
+      NODE_PATH: '.',
       NODE_ENV: config.env,
       DEBUG: `${config.slug}:*`
     }
@@ -205,6 +208,7 @@ gulp.task('startCrawler', function (cb) {
     ext: 'js',
     watch: ['crawler'],
     env: {
+      NODE_PATH: '.',
       LOCALTUNNEL: 0,
       NODE_ENV: config.env,
       DEBUG: `${config.slug}:*`

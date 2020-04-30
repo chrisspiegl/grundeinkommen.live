@@ -1,6 +1,5 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'
-const path = require('path')
-const config = require(path.join(__dirname, '../config'))
+const config = require('config')
 
 const debug = require('debug')
 const log = debug(`${config.slug}:router:middleware`)
@@ -13,8 +12,8 @@ const moment = require('moment')
 const url = require('url')
 const useragent = require('express-useragent')
 
-const models = require('../database/models')
-const routerError = require('./router/routerError')
+const models = require('database/models')
+const routerError = require('server/router/routerError')
 
 /**
  * Extension based on url parameter in router `\.:ext?`

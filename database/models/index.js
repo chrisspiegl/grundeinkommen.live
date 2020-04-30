@@ -1,8 +1,7 @@
 'use strict'
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'
-const path = require('path')
-const config = require(path.join(__dirname, '../../config'))
+const config = require('config')
 const configDatabase = require(path.join(__dirname, '/../') + 'config.js')[config.env]
 
 const debug = require('debug')

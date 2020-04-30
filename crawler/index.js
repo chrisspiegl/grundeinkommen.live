@@ -1,6 +1,5 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'
-const path = require('path')
-const config = require(path.join(__dirname, '../config'))
+const config = require('config')
 
 const debug = require('debug')
 const log = debug(`${config.slug}:crawler`)
@@ -20,7 +19,7 @@ const crawlers = [
 ]
 
 const pnotice = require('pushnotice')(`${config.slug}:crawler:meinBge`, { env: config.env, chat: config.pushnotice.chat, debug: true, disabled: config.pushnotice.disabled })
-const models = require('../database/models')
+const models = require('database/models')
 
 const configParallelCrawlers = 1
 

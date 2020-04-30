@@ -6,7 +6,7 @@ module.exports = {
   name: 'Grundeinkommen.LIVE',
   slug: 'siubi',
   slugShort: 'ubi',
-  version: require(path.normalize(__dirname + '/../package.json')).version,
+  version: require('package.json').version,
 
   root: path.normalize(__dirname + '/..'),
 

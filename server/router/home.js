@@ -1,6 +1,5 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'
-const path = require('path')
-const config = require(path.join(__dirname, '../../config'))
+const config = require('config')
 
 const debug = require('debug')
 const log = debug(`${config.slug}:router:home`)
@@ -13,10 +12,10 @@ const _ = require('lodash')
 const moment = require('moment-timezone')
 const sequelize = require('sequelize')
 
-const models = require('../../database/models')
-const middleware = require('../middleware')
+const models = require('database/models')
+const middleware = require('server/middleware')
 
-const CacheService = require('../cache.service');
+const CacheService = require('server/cache.service');
 const cache = new CacheService(60 * 5); // 5min ttl / Create a new cache service instance
 
 module.exports = () => {

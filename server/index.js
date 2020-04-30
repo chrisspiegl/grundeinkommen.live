@@ -1,6 +1,5 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'
-const path = require('path')
-const config = require(path.join(__dirname, '../config'))
+const config = require('config')
 
 const debug = require('debug')
 const log = debug(`${config.slug}:server`)
@@ -28,11 +27,11 @@ const slashes = require('connect-slashes')
 
 moment.tz.setDefault('UTC')
 
-const models = require('../database/models')
-const middleware = require('./middleware')
+const models = require('database/models')
+const middleware = require('server/middleware')
 const pnotice = require('pushnotice')(`${config.slug}:server`, { env: config.env, chat: config.pushnotice.chat, debug: true, disabled: config.pushnotice.disabled })
 
-const redis = require('./redis')
+const redis = require('server/redis')
 
 // Application
 const app = express()
