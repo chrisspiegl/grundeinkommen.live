@@ -13,7 +13,7 @@ const puppeteer = require('puppeteer')
 
 moment.tz.setDefault('UTC')
 
-const models = require('../database/models')
+const models = require('database/models')
 const pnotice = require('pushnotice')(`${config.slug}:crawler:meinBge`, { env: config.env, chat: config.pushnotice.chat, debug: true, disabled: config.pushnotice.disabled })
 
 const urls = [
@@ -48,39 +48,42 @@ const startBrowser = async () => {
 
 const fetchModel = async (browser, key, url) => {
   log(`Loading data for change-org-grundeinkommen ${key}`)
-  const page = await browser.newPage().catch((e) => {
-    log(e)
-  })
-  await page.goto(url, {
-    waitUntil: 'load' // can also be set to `networkidle0` or `networkidle2` or `domcontentloaded`
-  })
-  const changeTargetingData = await page.evaluate(() => window.changeTargetingData)
-  page.close()
+  try {
+    const page = await browser.newPage().catch((e) => {
+      log(e)
+    })
+    await page.goto(url, {
+      waitUntil: 'load' // can also be set to `networkidle0` or `networkidle2` or `domcontentloaded`
+    })
+    const changeTargetingData = await page.evaluate(() => window.changeTargetingData)
+    page.close()
 
-  const petitionData = changeTargetingData.petition
-  const signatureTotal = petitionData.signatureCount.total
-  const signatureGoal = petitionData.signatureCount.goal
+    const petitionData = changeTargetingData.petition
+    const signatureTotal = petitionData.signatureCount.total
+    const signatureGoal = petitionData.signatureCount.goal
 
-  log(`Logging ${signatureTotal} for change-org-grundeinkommen`)
+    log(`Logging ${signatureTotal} for change-org-grundeinkommen`)
 
-  const dateNow = moment().startOf('day')
-  const timeNow = moment().format('HH:mm:ss')
+    const dateNow = moment().startOf('day')
+    const timeNow = moment().format('HH:mm:ss')
 
 
-  if (signatureTotal) {
-    const dbObject = {
-      key: key,
-      date: dateNow,
-      time: timeNow,
-      value: signatureTotal
+    if (signatureTotal) {
+      const dbObject = {
+        key: key,
+        date: dateNow,
+        time: timeNow,
+        value: signatureTotal
+      }
+      await models.ValuesInt.create(dbObject)
+      log(`Crawled and put it in Database ${key}`)
+    } else {
+      log(`No valid value for ${key}`)
+      pnotice(`${key} — Crawler could not find value for numberSignatures`)
     }
-    await models.ValuesInt.create(dbObject)
-    log(`Crawled and put it in Database ${key}`)
-  } else {
-    log(`No valid value for ${key}`)
-    pnotice(`${key} — Crawler could not find value for numberSignatures`)
+  } catch (err) {
+    pnotice(`${key} — fetchModel — Unrecognized Error\n${JSON.stringify(err)}`, 'ERROR')
   }
-
 }
 
 const start = async () => {

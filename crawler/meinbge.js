@@ -27,58 +27,62 @@ const configParallelAccessPages = 1
 
 const fetchModel = async (key, url) => {
   log('Loading data for meinBge')
-  const crawlResult = await axios.get(url)
-  const $ = cheerio.load(crawlResult.data)
+  try {
+    const crawlResult = await axios.get(url)
+    const $ = cheerio.load(crawlResult.data)
 
-  const dateNow = moment().startOf('day')
-  const timeNow = moment().format('HH:mm:ss')
+    const dateNow = moment().startOf('day')
+    const timeNow = moment().format('HH:mm:ss')
 
-  const $selection = $('.container-fluid.fullbleed-sm.background-color--background .col-md-6 .h0')
-  if (!$selection) {
-    pnotice(`${key} — could not find web site element with values for stats`)
-    log(`Crawler ended early for ${key}`)
-    return;
-  }
-  let numberDonors
-  let numberGrundeinkommen
-
-  await $selection.map(async function (i, el) {
-    const number = parseInt($(el).html().replace('.', ''))
-    switch (i) {
-      case 0:
-        log(`Logging ${number} for meinbge-de-donors`)
-        numberDonors = number
-        break
-      case 1:
-        log(`Logging ${number} for meinbge-de-grundeinkommen`)
-        numberGrundeinkommen = number
-        break
+    const $selection = $('.container-fluid.fullbleed-sm.background-color--background .col-md-6 .h0')
+    if (!$selection) {
+      pnotice(`${key} — could not find web site element with values for stats`)
+      log(`Crawler ended early for ${key}`)
+      return;
     }
-  })
+    let numberDonors
+    let numberGrundeinkommen
 
-  if (numberDonors) {
-    await models.ValuesInt.create({
-      key: 'meinbge-de-donors',
-      date: dateNow,
-      time: timeNow,
-      value: numberDonors
-    })
-  } else {
-    log(`No valid value for donors for ${key}`)
-    pnotice(`${key} — Crawler could not find value for numberDonors`)
-  }
-  if (numberGrundeinkommen) {
-    await models.ValuesInt.create({
-      key: 'meinbge-de-grundeinkommen',
-      date: dateNow,
-      time: timeNow,
-      value: numberGrundeinkommen
+    await $selection.map(async function (i, el) {
+      const number = parseInt($(el).html().replace('.', ''))
+      switch (i) {
+        case 0:
+          log(`Logging ${number} for meinbge-de-donors`)
+          numberDonors = number
+          break
+        case 1:
+          log(`Logging ${number} for meinbge-de-grundeinkommen`)
+          numberGrundeinkommen = number
+          break
+      }
     })
 
-    log(`Crawled and put it in Database ${key}`)
-  } else {
-    log(`No valid value for grundeinkommen count for ${key}`)
-    pnotice(`${key} — Crawler could not find value for numberGrundeinkommen`)
+    if (numberDonors) {
+      await models.ValuesInt.create({
+        key: 'meinbge-de-donors',
+        date: dateNow,
+        time: timeNow,
+        value: numberDonors
+      })
+    } else {
+      log(`No valid value for donors for ${key}`)
+      pnotice(`${key} — Crawler could not find value for numberDonors`)
+    }
+    if (numberGrundeinkommen) {
+      await models.ValuesInt.create({
+        key: 'meinbge-de-grundeinkommen',
+        date: dateNow,
+        time: timeNow,
+        value: numberGrundeinkommen
+      })
+
+      log(`Crawled and put it in Database ${key}`)
+    } else {
+      log(`No valid value for grundeinkommen count for ${key}`)
+      pnotice(`${key} — Crawler could not find value for numberGrundeinkommen`)
+    }
+  } catch (err) {
+    pnotice(`${key} — fetchModel — Unrecognized Error\n${JSON.stringify(err)}`, 'ERROR')
   }
 }
 

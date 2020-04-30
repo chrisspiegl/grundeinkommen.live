@@ -27,29 +27,33 @@ const configParallelAccessPages = 1
 
 const fetchModel = async (key, url) => {
   log(`Loading data for youmove - ${url}`)
-  const crawlResult = await axios.get(url)
-  const $ = cheerio.load(crawlResult.data)
+  try {
+    const crawlResult = await axios.get(url)
+    const $ = cheerio.load(crawlResult.data)
 
-  const dateNow = moment().startOf('day')
-  const timeNow = moment().format('HH:mm:ss')
+    const dateNow = moment().startOf('day')
+    const timeNow = moment().format('HH:mm:ss')
 
-  const $selection = $('.signature-counter')
+    const $selection = $('.signature-counter')
 
-  const numberSignatures = parseInt($selection.html().replace('.', ''))
-  log(`Logging ${numberSignatures} for youmove-eu-grundeinkommen`)
+    const numberSignatures = parseInt($selection.html().replace('.', ''))
+    log(`Logging ${numberSignatures} for youmove-eu-grundeinkommen`)
 
-  if (numberSignatures) {
-    await models.ValuesInt.create({
-      key: 'youmove-eu-grundeinkommen',
-      date: dateNow,
-      time: timeNow,
-      value: numberSignatures
-    })
+    if (numberSignatures) {
+      await models.ValuesInt.create({
+        key: 'youmove-eu-grundeinkommen',
+        date: dateNow,
+        time: timeNow,
+        value: numberSignatures
+      })
 
-    log(`Crawled and put it in Database ${key}`)
-  } else {
-    log(`No valid value for ${key}`)
-    pnotice(`${key} — Crawler could not find value for numberSignatures`)
+      log(`Crawled and put it in Database ${key}`)
+    } else {
+      log(`No valid value for ${key}`)
+      pnotice(`${key} — Crawler could not find value for numberSignatures`)
+    }
+  } catch (err) {
+    pnotice(`${key} — fetchModel — Unrecognized Error\n${JSON.stringify(err)}`, 'ERROR')
   }
 }
 
