@@ -34,17 +34,12 @@ block content
       h2 Bundestag
       h1 #{numeral(bundestag.current.value).format('0,0')} Menschen sind für Grundeinkommen in der Krise
       p Bei der Petition geht es darum, insbesondere wegen der Corona Krise, für die Zeit der Krise ein Grundeinkommen für alle Bürger einzuführen. #[a(href="https://epetitionen.bundestag.de/petitionen/_2020/_03/_14/Petition_108191.nc.html") Alle Informationen & Unterschreiben].
-      .flexContainer.two
+      .flexContainer
         .flexColumn
-          h4.title Letzte 24 Stunden
-          p.data= numeral(bundestag.last24h).format('0,0')
+          h4.title Diese Petition endete am
+          p.data 27.4.2020
             br
-            | neue Unterschriften
-        .flexColumn
-          h4.title Letzte Stunde
-          p.data= numeral(bundestag.last1h).format('0,0')
-            br
-            | neue Unterschriften
+            | Vielen Dank an alle.
       div.charts.center
         button.toggle()
           span.daily.active Daily
