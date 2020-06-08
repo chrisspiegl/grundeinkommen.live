@@ -90,11 +90,12 @@ const fetchModel = async (browser, key, url) => {
 }
 
 const start = async () => {
+  let browser
   try {
     log(`Running change-org-grundeinkommen Crawler in ${process.env.NODE_ENV} environment`)
 
     log('Starting headless browser for change-org-grundeinkommen')
-    const browser = await startBrowser()
+    browser = await startBrowser()
 
     const pLimiter = pLimit(configParallelAccessPages)
 
@@ -106,14 +107,12 @@ const start = async () => {
 
     // TODO: DO not understand why this is firing before the actual create / already have logs appear
     log('Finished running change-org-grundeinkommen crawler')
-
-    log('Closing headless browser for change-org-grundeinkommen')
-    await browser.close()
-    log('Closed headless browser for change-org-grundeinkommen')
-
-
   } catch (err) {
     pnotice(`${key} — start — Unrecognized Error\n${JSON.stringify(err)}`, 'ERROR')
+  } finally {
+    log('Closing headless browser for change-org-grundeinkommen')
+    if (browser) await browser.close()
+    log('Closed headless browser for change-org-grundeinkommen')
   }
 }
 
