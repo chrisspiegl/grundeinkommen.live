@@ -42,7 +42,7 @@ const start = async () => {
   log('Starting Crawler')
   await models.init()
   const CronJob = cron.CronJob;
-  const job = new CronJob('0 */15 * * * *', run, null, true, 'Europe/Berlin', this, true);
+  const job = new CronJob('0 * * * * *', run, null, true, 'Europe/Berlin', this, true);
   job.start();
 }
 start()
