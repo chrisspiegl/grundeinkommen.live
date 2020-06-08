@@ -229,6 +229,7 @@ gulp.task('startCrawler', function (cb) {
 })
 
 gulp.task('default', gulp.parallel('startWebserver', 'watch'))
+gulp.task('crawler', gulp.parallel('startCrawler'))
 
 gulp.task('build', gulp.parallel('copy', 'buildSass', 'buildJs'))
 gulp.task('buildClean', gulp.series('clean', gulp.parallel('copy', 'buildSass', 'buildJs')))

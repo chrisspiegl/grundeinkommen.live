@@ -55,6 +55,9 @@ const fetchModel = async (browser, key, url) => {
     await page.goto(url, {
       waitUntil: 'load' // can also be set to `networkidle0` or `networkidle2` or `domcontentloaded`
     })
+
+    // await new Promise(r => setTimeout(r, 2000));
+
     const changeTargetingData = await page.evaluate(() => window.changeTargetingData)
     page.close()
 
@@ -87,24 +90,31 @@ const fetchModel = async (browser, key, url) => {
 }
 
 const start = async () => {
-  log(`Running change-org-grundeinkommen Crawler in ${process.env.NODE_ENV} environment`)
+  try {
+    log(`Running change-org-grundeinkommen Crawler in ${process.env.NODE_ENV} environment`)
 
-  log('Starting headless browser for change-org-grundeinkommen')
-  const browser = await startBrowser()
+    log('Starting headless browser for change-org-grundeinkommen')
+    const browser = await startBrowser()
 
-  const pLimiter = pLimit(configParallelAccessPages)
+    const pLimiter = pLimit(configParallelAccessPages)
 
-  const promises = urls.map((url) => {
-    return pLimiter(async () => fetchModel(browser, url.key, url.url))
-  })
+    const promises = urls.map((url) => {
+      return pLimiter(async () => fetchModel(browser, url.key, url.url))
+    })
 
-  await Promise.all(promises)
+    await Promise.all(promises)
 
-  // TODO: DO not understand why this is firing before the actual create / already have logs appear
-  log('Finished running change-org-grundeinkommen crawler')
+    // TODO: DO not understand why this is firing before the actual create / already have logs appear
+    log('Finished running change-org-grundeinkommen crawler')
 
-  log('Closing headless browser for change-org-grundeinkommen')
-  await browser.close()
+    log('Closing headless browser for change-org-grundeinkommen')
+    await browser.close()
+    log('Closed headless browser for change-org-grundeinkommen')
+
+
+  } catch (err) {
+    pnotice(`${key} — start — Unrecognized Error\n${JSON.stringify(err)}`, 'ERROR')
+  }
 }
 
 module.exports = {

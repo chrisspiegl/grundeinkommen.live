@@ -19,7 +19,7 @@ const crawlers = [
   require('./youmove'),
 ]
 
-const pnotice = require('pushnotice')(`${config.slug}:crawler:meinBge`, { env: config.env, chat: config.pushnotice.chat, debug: true, disabled: config.pushnotice.disabled })
+const pnotice = require('pushnotice')(`${config.slug}:crawler:index`, { env: config.env, chat: config.pushnotice.chat, debug: true, disabled: config.pushnotice.disabled })
 const models = require('database/models')
 
 const configParallelCrawlers = 1
@@ -42,7 +42,7 @@ const start = async () => {
   log('Starting Crawler')
   await models.init()
   const CronJob = cron.CronJob;
-  const job = new CronJob('0 */5 * * * *', run, null, true, 'Europe/Berlin', this, true);
+  const job = new CronJob('0 0 * * * *', run, null, true, 'Europe/Berlin', this, true);
   job.start();
 }
 start()
