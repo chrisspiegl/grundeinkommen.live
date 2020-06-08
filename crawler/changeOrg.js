@@ -59,7 +59,7 @@ const fetchModel = async (browser, key, url) => {
     // await new Promise(r => setTimeout(r, 2000));
 
     const changeTargetingData = await page.evaluate(() => window.changeTargetingData)
-    page.close()
+    await page.close()
 
     const petitionData = changeTargetingData.petition
     const signatureTotal = petitionData.signatureCount.total
