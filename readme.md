@@ -1,5 +1,13 @@
 # Grundeinkommen.LIVE Dashboard
 
+![current status](https://img.shields.io/badge/current%20status-halted-red?style=flat-square)
+
+## Halted Project
+
+I lost motivation to work on this for now. The code is here if you want to take a look.
+
+## About
+
 This dashboard gives an overview of German petitions going on to get a Universal Basic Income going. Data is crawled form petition websites every 5 minutes and displaid with charts to visualizse the growth over time.
 
 Website: [https://grundeinkommen.live](https://grundeinkommen.live)
