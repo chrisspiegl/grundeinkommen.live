@@ -34,7 +34,7 @@
     "express-status-monitor": "^1.2.8",
     "express-useragent": "^1.0.13",
     "helmet": "^3.21.2",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
     "moment-timezone": "^0.5.27",
